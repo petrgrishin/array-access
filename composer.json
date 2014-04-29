@@ -20,7 +20,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "Util\\ArrayAccess": "src/"
+            "Util": "src/"
         }
     }
 }
