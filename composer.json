@@ -1,0 +1,30 @@
+{
+    "name": "petrgrishin/array-access",
+    "description": "Php multi array access",
+    "license": "MIT",
+    "version": "0.1.0",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "mockery/mockery": ">=0.7.2",
+        "league/phpunit-coverage-listener": "~1.0"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/petrgrishin/array-access.git"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Petr Grishin",
+            "email": "petr.grishin@grishini.ru"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Util\\ArrayAccess": "src/"
+        }
+    }
+}
