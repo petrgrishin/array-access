@@ -39,11 +39,32 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($this->testArray['key3']['key31'], $instance->getValue('key3.key31'));
     }
 
+    public function testReturnValueBySimpleKey() {
+        $instance = \Util\ArrayAccess::create($this->testArray);
+        $this->assertEquals($this->testArray['key1'], $instance->getValue('key1'));
+    }
+
     /**
      * @expectedException \Exception
      */
     public function testNotFoundValue() {
         $instance = \Util\ArrayAccess::create($this->testArray);
         $instance->getValue('notExistKey');
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testInvalidPathNotExistKey() {
+        $instance = \Util\ArrayAccess::create($this->testArray);
+        $instance->getValue('key3.notExistKey');
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testInvalidPathNotArray() {
+        $instance = \Util\ArrayAccess::create($this->testArray);
+        $instance->getValue('key3.key32.notExistKey');
     }
 }
