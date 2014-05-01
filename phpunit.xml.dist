@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" bootstrap="tests/Bootstrap.php">
     <testsuites>
-        <testsuite name="Main tests">
-            <directory suffix="MainTest.php">tests/unit</directory>
+        <testsuite name="ArrayAccess tests">
+            <directory suffix="ArrayAccessTest.php">tests/unit</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
     <logging>
         <log type="coverage-clover" target="/tmp/coverage.xml"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
