@@ -29,12 +29,21 @@ class ArrayAccess {
 
     public function setPathDelimiter($delimiter) {
         $this->pathDelimiter = $delimiter;
+        return $this;
     }
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function setArray(array $data) {
         $this->data = $data;
+        return $this;
     }
 
+    /**
+     * @return array
+     */
     public function toArray() {
         return $this->data;
     }
@@ -42,7 +51,7 @@ class ArrayAccess {
     /**
      * @param string $path
      * @param null|string $defaultValue
-     * @throws ArrayAccessException
+     * @throws Exception\ArrayAccessException
      * @return mixed
      */
     public function getValue($path, $defaultValue = null) {
@@ -71,6 +80,12 @@ class ArrayAccess {
         throw new ArrayAccessException(sprintf('Not found value by key `%s`', $path));
     }
 
+    /**
+     * @param $path
+     * @param $value
+     * @return $this
+     * @throws Exception\ArrayAccessException
+     */
     public function setValue($path, $value) {
         $array = & $this->data;
         $keys = explode($this->pathDelimiter, $path);
@@ -85,5 +100,6 @@ class ArrayAccess {
         }
         $key = array_shift($keys);
         $array[$key] = $value;
+        return $this;
     }
 }
