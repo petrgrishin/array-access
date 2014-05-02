@@ -13,7 +13,9 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
         'key3' => array(
             'key31' => array(1, 2, 3),
             'key32' => 'value32',
+            'keyNullValue' => null,
         ),
+        'keyNullValue' => null,
     );
 
     public function testCreateInstance() {
@@ -46,12 +48,26 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($this->testArray['key1'], $instance->getValue('key1'));
     }
 
+    public function testReturnNullValueBySimpleKey() {
+        $instance = ArrayAccess::create($this->testArray);
+        $this->assertNull($instance->getValue('keyNullValue'));
+        $this->assertNull($instance->getValue('key3.keyNullValue'));
+    }
+
     /**
      * @expectedException \Exception
      */
     public function testNotFoundValue() {
         $instance = ArrayAccess::create($this->testArray);
         $instance->getValue('notExistKey');
+    }
+
+    /**
+     * @depends testNotFoundValue
+     */
+    public function testGetDefaultValue() {
+        $instance = ArrayAccess::create($this->testArray);
+        $this->assertFalse($instance->getValue('notExistKey', false));
     }
 
     /**

@@ -57,6 +57,9 @@ class ArrayAccess {
             }
             $array = $value;
         } while ($keys);
+        if ($defaultValue !== null) {
+            return $defaultValue;
+        }
         throw new ArrayAccessException(sprintf('Not found value by key `%s`', $path));
     }
 }
