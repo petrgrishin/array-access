@@ -70,4 +70,20 @@ class ArrayAccess {
         }
         throw new ArrayAccessException(sprintf('Not found value by key `%s`', $path));
     }
+
+    public function setValue($path, $value) {
+        $array = & $this->data;
+        $keys = explode($this->pathDelimiter, $path);
+        while (count($keys) > 1) {
+            $key = array_shift($keys);
+            if (!array_key_exists($key, $array)) {
+                $array[$key] = array();
+            } elseif (!is_array($array[$key])) {
+                throw new ArrayAccessException(sprintf('Value is not array'));
+            }
+            $array = & $array[$key];
+        }
+        $key = array_shift($keys);
+        $array[$key] = $value;
+    }
 }

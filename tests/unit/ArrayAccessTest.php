@@ -85,4 +85,35 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
         $instance = ArrayAccess::create($this->testArray);
         $instance->getValue('key3.key32.notExistKey');
     }
+
+    public function testSetValueBySimplePath() {
+        $instance = ArrayAccess::create($this->testArray);
+        $this->assertEquals($this->testArray['key1'], $instance->getValue('key1'));
+        $instance->setValue('key1', true);
+        $this->assertNotEquals($this->testArray['key1'], $instance->getValue('key1'));
+        $this->assertTrue($instance->getValue('key1'));
+    }
+
+    public function testSetValueByPath() {
+        $instance = ArrayAccess::create($this->testArray);
+        $this->assertEquals($this->testArray['key3']['key32'], $instance->getValue('key3.key32'));
+        $instance->setValue('key3.key32', true);
+        $this->assertNotEquals($this->testArray['key3']['key32'], $instance->getValue('key3.key32'));
+        $this->assertTrue($instance->getValue('key3.key32'));
+    }
+
+    public function testSetValueByNotExistPath() {
+        $instance = ArrayAccess::create();
+        $instance->setValue('notExistKye1.notExistKye2.notExistKye3', true);
+        $this->assertEquals(array(
+                'notExistKye1' => array(
+                    'notExistKye2' => array(
+                        'notExistKye3' => true
+                    )
+                )
+            ),
+            $instance->toArray()
+        );
+        $this->assertTrue($instance->getValue('notExistKye1.notExistKye2.notExistKye3'));
+    }
 }
