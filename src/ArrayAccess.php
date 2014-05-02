@@ -3,8 +3,10 @@
  * @author Petr Grishin <petr.grishin@grishini.ru>
  */
 
-namespace Util;
+namespace PetrGrishin\ArrayAccess;
 
+
+use PetrGrishin\ArrayAccess\Exception\ArrayAccessException;
 
 class ArrayAccess {
     /** @var array */
@@ -32,7 +34,7 @@ class ArrayAccess {
     /**
      * @param string $path
      * @param null|string $defaultValue
-     * @throws \Exception
+     * @throws ArrayAccessException
      * @return mixed
      */
     public function getValue($path, $defaultValue = null) {
@@ -55,6 +57,6 @@ class ArrayAccess {
             }
             $array = $value;
         } while ($keys);
-        throw new \Exception(sprintf('Not found value by key `%s`', $path));
+        throw new ArrayAccessException(sprintf('Not found value by key `%s`', $path));
     }
 }

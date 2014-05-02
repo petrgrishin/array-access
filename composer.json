@@ -22,8 +22,8 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Util": "src/"
+        "psr-4": {
+            "PetrGrishin\\ArrayAccess\\": "src/"
         }
     }
 }
