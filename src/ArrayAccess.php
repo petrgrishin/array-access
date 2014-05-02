@@ -23,8 +23,16 @@ class ArrayAccess {
     }
 
     public function __construct(array $data = null, $pathDelimiter = null) {
-        $this->data = $data ?: array();
-        $this->pathDelimiter = $pathDelimiter ?: '.';
+        $this->setArray($data ?: array());
+        $this->setPathDelimiter($pathDelimiter ?: '.');
+    }
+
+    public function setPathDelimiter($delimiter) {
+        $this->pathDelimiter = $delimiter;
+    }
+
+    public function setArray(array $data) {
+        $this->data = $data;
     }
 
     public function toArray() {
