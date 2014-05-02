@@ -55,7 +55,7 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \PetrGrishin\ArrayAccess\Exception\ArrayAccessException
      */
     public function testNotFoundValue() {
         $instance = ArrayAccess::create($this->testArray);
@@ -71,7 +71,7 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \PetrGrishin\ArrayAccess\Exception\ArrayAccessException
      */
     public function testInvalidPathNotExistKey() {
         $instance = ArrayAccess::create($this->testArray);
@@ -79,7 +79,7 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \PetrGrishin\ArrayAccess\Exception\ArrayAccessException
      */
     public function testInvalidPathNotArray() {
         $instance = ArrayAccess::create($this->testArray);
@@ -104,6 +104,7 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
 
     public function testSetValueByNotExistPath() {
         $instance = ArrayAccess::create();
+        $this->assertEquals(array(), $instance->toArray());
         $instance->setValue('notExistKye1.notExistKye2.notExistKye3', true);
         $this->assertEquals(array(
                 'notExistKye1' => array(
@@ -115,5 +116,13 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
             $instance->toArray()
         );
         $this->assertTrue($instance->getValue('notExistKye1.notExistKye2.notExistKye3'));
+    }
+
+    /**
+     * @expectedException \PetrGrishin\ArrayAccess\Exception\ArrayAccessException
+     */
+    public function testSetValueByPathWithScalarValue() {
+        $instance = ArrayAccess::create($this->testArray);
+        $instance->setValue('key3.key32.notExistKye', true);
     }
 }
