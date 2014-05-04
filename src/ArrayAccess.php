@@ -14,19 +14,35 @@ class ArrayAccess {
     /** @var string */
     private $pathDelimiter;
 
+    /**
+     * @return string
+     */
     public static function className() {
         return get_called_class();
     }
 
+    /**
+     * @param array|null $data
+     * @param string|null $pathDelimiter
+     * @return static
+     */
     public static function create(array $data = null, $pathDelimiter = null) {
         return new static($data, $pathDelimiter);
     }
 
+    /**
+     * @param array|null $data
+     * @param string|null $pathDelimiter
+     */
     public function __construct(array $data = null, $pathDelimiter = null) {
         $this->setArray($data ?: array());
         $this->setPathDelimiter($pathDelimiter ?: '.');
     }
 
+    /**
+     * @param string $delimiter
+     * @return $this
+     */
     public function setPathDelimiter($delimiter) {
         $this->pathDelimiter = $delimiter;
         return $this;
@@ -50,7 +66,7 @@ class ArrayAccess {
 
     /**
      * @param string $path
-     * @param null|string $defaultValue
+     * @param mixed $defaultValue
      * @throws Exception\ArrayAccessException
      * @return mixed
      */
@@ -81,8 +97,8 @@ class ArrayAccess {
     }
 
     /**
-     * @param $path
-     * @param $value
+     * @param string $path
+     * @param mixed $value
      * @return $this
      * @throws Exception\ArrayAccessException
      */
@@ -103,6 +119,11 @@ class ArrayAccess {
         return $this;
     }
 
+    /**
+     * @param string $path
+     * @return $this
+     * @throws Exception\ArrayAccessException
+     */
     public function remove($path) {
         $array = & $this->data;
         $keys = explode($this->pathDelimiter, $path);
