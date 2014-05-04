@@ -28,4 +28,7 @@ $params = ArrayAccess::create(array(
     )
 ));
 $value = $params->getValue('a.b');
+$params
+    ->setValue('a.b', 20)
+    ->setValue('a.c', 30);
 ```
