@@ -2,7 +2,7 @@
     "name": "petrgrishin/array-access",
     "description": "PHP multi array access",
     "license": "MIT",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "require": {
         "php": ">=5.3.0"
     },
