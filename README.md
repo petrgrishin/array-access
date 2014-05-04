@@ -22,13 +22,16 @@ Usage examples
 ```php
 use \PetrGrishin\ArrayAccess\ArrayAccess;
 
-$params = ArrayAccess::create(array(
+$arrayParams = array(
     'a' => array(
         'b' => 10,
     )
-));
+);
+$params = ArrayAccess::create($arrayParams);
 $value = $params->getValue('a.b');
 $params
     ->setValue('a.b', 20)
     ->setValue('a.c', 30);
+$params->remove('a.b');
+$resultArrayParams = $params->getArray();
 ```
