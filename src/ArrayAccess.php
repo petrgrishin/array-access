@@ -44,7 +44,7 @@ class ArrayAccess {
     /**
      * @return array
      */
-    public function toArray() {
+    public function getArray() {
         return $this->data;
     }
 
@@ -100,6 +100,26 @@ class ArrayAccess {
         }
         $key = array_shift($keys);
         $array[$key] = $value;
+        return $this;
+    }
+
+    public function remove($path) {
+        $array = & $this->data;
+        $keys = explode($this->pathDelimiter, $path);
+        while (count($keys) > 1) {
+            $key = array_shift($keys);
+            if (!array_key_exists($key, $array)) {
+                throw new ArrayAccessException(sprintf('Not exist key'));
+            } elseif (!is_array($array[$key])) {
+                throw new ArrayAccessException(sprintf('Value is not array'));
+            }
+            $array = & $array[$key];
+        }
+        $key = array_shift($keys);
+        if (!array_key_exists($key, $array)) {
+            throw new ArrayAccessException(sprintf('Not exist key'));
+        }
+        unset($array[$key]);
         return $this;
     }
 }

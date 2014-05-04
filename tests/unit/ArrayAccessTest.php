@@ -30,12 +30,12 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
 
     public function testCreateEmptyArray() {
         $instance = ArrayAccess::create();
-        $this->assertEquals(array(), $instance->toArray());
+        $this->assertEquals(array(), $instance->getArray());
     }
 
     public function testReturnArray() {
         $instance = ArrayAccess::create($this->testArray);
-        $this->assertEquals($this->testArray, $instance->toArray());
+        $this->assertEquals($this->testArray, $instance->getArray());
     }
 
     public function testGetValueByPath() {
@@ -104,7 +104,7 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
 
     public function testSetValueByNotExistPath() {
         $instance = ArrayAccess::create();
-        $this->assertEquals(array(), $instance->toArray());
+        $this->assertEquals(array(), $instance->getArray());
         $instance->setValue('notExistKye1.notExistKye2.notExistKye3', true);
         $this->assertEquals(array(
                 'notExistKye1' => array(
@@ -113,7 +113,7 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
                     )
                 )
             ),
-            $instance->toArray()
+            $instance->getArray()
         );
         $this->assertTrue($instance->getValue('notExistKye1.notExistKye2.notExistKye3'));
     }
@@ -124,5 +124,37 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
     public function testSetValueByPathWithScalarValue() {
         $instance = ArrayAccess::create($this->testArray);
         $instance->setValue('key3.key32.notExistKye', true);
+    }
+
+    public function testRemoveElementByPath() {
+        $instance = ArrayAccess::create($this->testArray);
+        $instance->remove('key3.key32');
+        $this->assertNotEquals($this->testArray, $instance->getArray());
+        unset($this->testArray['key3']['key32']);
+        $this->assertEquals($this->testArray, $instance->getArray());
+    }
+
+    /**
+     * @expectedException \PetrGrishin\ArrayAccess\Exception\ArrayAccessException
+     */
+    public function testRemoveElementByInvalidPath() {
+        $instance = ArrayAccess::create($this->testArray);
+        $instance->remove('key3.key32.notExistKye');
+    }
+
+    /**
+     * @expectedException \PetrGrishin\ArrayAccess\Exception\ArrayAccessException
+     */
+    public function testRemoveElementByInvalidKeyInPath() {
+        $instance = ArrayAccess::create($this->testArray);
+        $instance->remove('key3.notExistKye');
+    }
+
+    /**
+     * @expectedException \PetrGrishin\ArrayAccess\Exception\ArrayAccessException
+     */
+    public function testRemoveElementByNotExistKeyInPath() {
+        $instance = ArrayAccess::create($this->testArray);
+        $instance->remove('notExistKye1.notExistKye2');
     }
 }
