@@ -35,3 +35,6 @@ $params
 $params->remove('a.b');
 $resultArrayParams = $params->getArray();
 ```
+
+#### Example of usage in Yii2 behavior
+https://github.com/petrgrishin/yii2-array-field
