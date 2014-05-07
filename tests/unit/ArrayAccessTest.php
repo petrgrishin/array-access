@@ -157,4 +157,22 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
         $instance = ArrayAccess::create($this->testArray);
         $instance->remove('notExistKye1.notExistKye2');
     }
+
+    public function testSimpleMapping() {
+        $original = array(1, 2, 3);
+        $instance = ArrayAccess::create($original);
+        $instance->map(function ($value) {
+            return $value * 2;
+        });
+        $this->assertEquals(array(2, 4, 6), $instance->getArray());
+    }
+
+    public function testKeyMapping() {
+        $original = array(1 => 1, 2 => 2, 3 => 3);
+        $instance = ArrayAccess::create($original);
+        $instance->map(function ($value, $key) {
+            return array(($key - 1) => $value * 2);
+        });
+        $this->assertEquals(array(0 => 2, 1 => 4, 2 => 6), $instance->getArray());
+    }
 }

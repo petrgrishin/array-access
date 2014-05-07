@@ -143,4 +143,25 @@ class ArrayAccess {
         unset($array[$key]);
         return $this;
     }
+
+    public function map($callback) {
+        if (!is_callable($callback)) {
+            throw new ArrayAccessException('Argument is not callable');
+        }
+        $array = array();
+        foreach ($this->data as $key => $item) {
+            $array = array_merge_recursive($array, (array)call_user_func($callback, $item, $key));
+        }
+        $this->data = $array;
+        return $this;
+    }
+
+    public function mergeWith(array $data, $recursive = true) {
+        if ($recursive) {
+            $this->data = array_merge_recursive($this->data, $data);
+        } else {
+            $this->data = array_merge($this->data, $data);
+        }
+        return $this;
+    }
 }
