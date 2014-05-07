@@ -175,4 +175,18 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
         });
         $this->assertEquals(array(0 => 2, 1 => 4, 2 => 6), $instance->getArray());
     }
+
+    public function testMergeWith() {
+        $original = array(1, 2, 3);
+        $instance = ArrayAccess::create($original);
+        $instance->mergeWith(array(4, 5, 6), false);
+        $this->assertEquals(array(1, 2, 3, 4, 5, 6), $instance->getArray());
+    }
+
+    public function testRecursiveMergeWith() {
+        $original = array('a' => array(1), 'b', 'c');
+        $instance = ArrayAccess::create($original);
+        $instance->mergeWith(array('a' => array(2), 'd', 'e'));
+        $this->assertEquals(array('a' => array(1, 2), 'b', 'c', 'd', 'e'), $instance->getArray());
+    }
 }
