@@ -7,6 +7,7 @@ namespace PetrGrishin\ArrayAccess;
 
 
 use PetrGrishin\ArrayAccess\Exception\ArrayAccessException;
+use PetrGrishin\ArrayMap\ArrayMap;
 
 class ArrayAccess {
     /** @var array */
@@ -145,22 +146,23 @@ class ArrayAccess {
     }
 
     public function map($callback) {
-        if (!is_callable($callback)) {
-            throw new ArrayAccessException('Argument is not callable');
+        try {
+            $this->data = ArrayMap::create($this->data)
+                ->map($callback)
+                ->getArray();
+        } catch (\PetrGrishin\ArrayMap\Exception\ArrayMapException $e) {
+            throw new ArrayAccessException(sprintf('Error when mapping: %s', $e->getMessage()), null, $e);
         }
-        $array = array();
-        foreach ($this->data as $key => $item) {
-            $array = array_merge_recursive($array, (array)call_user_func($callback, $item, $key));
-        }
-        $this->data = $array;
         return $this;
     }
 
     public function mergeWith(array $data, $recursive = true) {
-        if ($recursive) {
-            $this->data = array_merge_recursive($this->data, $data);
-        } else {
-            $this->data = array_merge($this->data, $data);
+        try {
+            $this->data = ArrayMap::create($this->data)
+                ->mergeWith($data, $recursive)
+                ->getArray();
+        } catch (\PetrGrishin\ArrayMap\Exception\ArrayMapException $e) {
+            throw new ArrayAccessException(sprintf('Error when merge: %s', $e->getMessage()), null, $e);
         }
         return $this;
     }

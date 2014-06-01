@@ -3,7 +3,8 @@
     "description": "PHP multi array access",
     "license": "MIT",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "petrgrishin/array-map": "~1.0"
     },
     "require-dev": {
         "league/phpunit-coverage-listener": "~1.0"
