@@ -8,6 +8,7 @@ namespace PetrGrishin\ArrayAccess;
 
 use PetrGrishin\ArrayAccess\Exception\ArrayAccessException;
 use PetrGrishin\ArrayMap\ArrayMap;
+use PetrGrishin\ArrayMap\Exception\ArrayMapException;
 
 class ArrayAccess {
     /** @var array */
@@ -150,7 +151,7 @@ class ArrayAccess {
             $this->data = ArrayMap::create($this->data)
                 ->map($callback)
                 ->getArray();
-        } catch (\PetrGrishin\ArrayMap\Exception\ArrayMapException $e) {
+        } catch (ArrayMapException $e) {
             throw new ArrayAccessException(sprintf('Error when mapping: %s', $e->getMessage()), null, $e);
         }
         return $this;
@@ -161,8 +162,19 @@ class ArrayAccess {
             $this->data = ArrayMap::create($this->data)
                 ->mergeWith($data, $recursive)
                 ->getArray();
-        } catch (\PetrGrishin\ArrayMap\Exception\ArrayMapException $e) {
+        } catch (ArrayMapException $e) {
             throw new ArrayAccessException(sprintf('Error when merge: %s', $e->getMessage()), null, $e);
+        }
+        return $this;
+    }
+
+    public function filter($callback) {
+        try {
+            $this->data = ArrayMap::create($this->data)
+                ->filter($callback)
+                ->getArray();
+        } catch (ArrayMapException $e) {
+            throw new ArrayAccessException(sprintf('Error when filter: %s', $e->getMessage()), null, $e);
         }
         return $this;
     }

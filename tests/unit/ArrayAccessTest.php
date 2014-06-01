@@ -189,4 +189,22 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
         $instance->mergeWith(array('a' => array(2), 'd', 'e'));
         $this->assertEquals(array('a' => array(1, 2), 'b', 'c', 'd', 'e'), $instance->getArray());
     }
+
+    public function testFiltering() {
+        $original = array('a' => 1, 'b' => 2, 'c' => 3);
+        $instance = ArrayAccess::create($original);
+        $instance->filter(function ($value) {
+            return $value > 2;
+        });
+        $this->assertEquals(array('c' => 3), $instance->getArray());
+    }
+
+    public function testFilteringUseKeys() {
+        $original = array('a' => 1, 'b' => 2, 'c' => 3);
+        $instance = ArrayAccess::create($original);
+        $instance->filter(function ($value, $key) {
+            return $key === 'c';
+        });
+        $this->assertEquals(array('c' => 3), $instance->getArray());
+    }
 }
