@@ -168,6 +168,17 @@ class ArrayAccess {
         return $this;
     }
 
+    public function replaceWith(array $data, $recursive = true) {
+        try {
+            $this->data = ArrayMap::create($this->data)
+                ->replaceWith($data, $recursive)
+                ->getArray();
+        } catch (ArrayMapException $e) {
+            throw new ArrayAccessException(sprintf('Error when replace: %s', $e->getMessage()), null, $e);
+        }
+        return $this;
+    }
+
     public function filter($callback) {
         try {
             $this->data = ArrayMap::create($this->data)
