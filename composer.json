@@ -4,7 +4,8 @@
     "license": "MIT",
     "require": {
         "php": ">=5.3.0",
-        "petrgrishin/array-map": "~1.0"
+        "petrgrishin/array-map": "dev-master",
+        "petrgrishin/array-object": "~1.0"
     },
     "require-dev": {
         "league/phpunit-coverage-listener": "~1.0"

@@ -9,12 +9,13 @@ namespace PetrGrishin\ArrayAccess;
 use PetrGrishin\ArrayAccess\Exception\ArrayAccessException;
 use PetrGrishin\ArrayMap\ArrayMap;
 use PetrGrishin\ArrayMap\Exception\ArrayMapException;
+use PetrGrishin\ArrayObject\BaseArrayObject;
 
-class ArrayAccess {
-    /** @var array */
-    private $data;
+class ArrayAccess extends BaseArrayObject {
     /** @var string */
     private $pathDelimiter;
+    /** @var ArrayMap */
+    private $map;
 
     /**
      * @return string
@@ -28,7 +29,7 @@ class ArrayAccess {
      * @param string|null $pathDelimiter
      * @return static
      */
-    public static function create(array $data = null, $pathDelimiter = null) {
+    public static function create($data = null, $pathDelimiter = null) {
         return new static($data, $pathDelimiter);
     }
 
@@ -36,7 +37,7 @@ class ArrayAccess {
      * @param array|null $data
      * @param string|null $pathDelimiter
      */
-    public function __construct(array $data = null, $pathDelimiter = null) {
+    public function __construct($data = null, $pathDelimiter = null) {
         $this->setArray($data ?: array());
         $this->setPathDelimiter($pathDelimiter ?: '.');
     }
@@ -51,29 +52,13 @@ class ArrayAccess {
     }
 
     /**
-     * @param array $data
-     * @return $this
-     */
-    public function setArray(array $data) {
-        $this->data = $data;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getArray() {
-        return $this->data;
-    }
-
-    /**
      * @param string $path
      * @param mixed $defaultValue
      * @throws Exception\ArrayAccessException
      * @return mixed
      */
     public function getValue($path, $defaultValue = null) {
-        $array = $this->data;
+        $array = $this->getArray();
         if (array_key_exists($path, $array)) {
             return $array[$path];
         }
@@ -105,7 +90,8 @@ class ArrayAccess {
      * @throws Exception\ArrayAccessException
      */
     public function setValue($path, $value) {
-        $array = & $this->data;
+        $data = $this->getArray();
+        $array = & $data;
         $keys = explode($this->pathDelimiter, $path);
         while (count($keys) > 1) {
             $key = array_shift($keys);
@@ -118,6 +104,7 @@ class ArrayAccess {
         }
         $key = array_shift($keys);
         $array[$key] = $value;
+        $this->setArray($data);
         return $this;
     }
 
@@ -127,7 +114,8 @@ class ArrayAccess {
      * @throws Exception\ArrayAccessException
      */
     public function remove($path) {
-        $array = & $this->data;
+        $data = $this->getArray();
+        $array = & $data;
         $keys = explode($this->pathDelimiter, $path);
         while (count($keys) > 1) {
             $key = array_shift($keys);
@@ -143,39 +131,14 @@ class ArrayAccess {
             throw new ArrayAccessException(sprintf('Not exist key'));
         }
         unset($array[$key]);
+        $this->setArray($data);
         return $this;
     }
 
-    public function map($callback) {
-        try {
-            $this->data = ArrayMap::create($this->data)
-                ->map($callback)
-                ->getArray();
-        } catch (ArrayMapException $e) {
-            throw new ArrayAccessException(sprintf('Error when mapping: %s', $e->getMessage()), null, $e);
+    public function getMap() {
+        if ($this->map) {
+            $this->map = ArrayMap::create($this);
         }
-        return $this;
-    }
-
-    public function mergeWith(array $data, $recursive = true) {
-        try {
-            $this->data = ArrayMap::create($this->data)
-                ->mergeWith($data, $recursive)
-                ->getArray();
-        } catch (ArrayMapException $e) {
-            throw new ArrayAccessException(sprintf('Error when merge: %s', $e->getMessage()), null, $e);
-        }
-        return $this;
-    }
-
-    public function filter($callback) {
-        try {
-            $this->data = ArrayMap::create($this->data)
-                ->filter($callback)
-                ->getArray();
-        } catch (ArrayMapException $e) {
-            throw new ArrayAccessException(sprintf('Error when filter: %s', $e->getMessage()), null, $e);
-        }
-        return $this;
+        return $this->map;
     }
 }
