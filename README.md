@@ -34,7 +34,26 @@ $params
     ->setValue('a.c', 30);
 $params->remove('a.b');
 $resultArrayParams = $params->getArray();
+// array(
+//     'a' => array(
+//         'c' => 30,
+//     )
+// )
 ```
+
+#### Use ArrayMap
+```php
+$arrayAccess = ArrayAccess::create($array);
+$arrayAccess->getMap()
+    ->filter($callback)
+    ->map($callback)
+    ->userSortByValue($callback)
+    ->userSortByKey($callback)
+    ->mergeWith($array)
+    ->replaceWith($array);
+$resultArrayParams = $params->getArray();
+```
+Example of usage ArrayMap class — https://github.com/petrgrishin/array-map
 
 #### Example of usage in Yii2 behavior
 https://github.com/petrgrishin/yii2-array-field
