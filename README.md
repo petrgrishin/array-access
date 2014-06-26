@@ -11,7 +11,7 @@ Add a dependency to your project's composer.json file if you use [Composer](http
 ```json
 {
     "require": {
-        "petrgrishin/array-access": "~1.0"
+        "petrgrishin/array-access": "~2.0"
     }
 }
 ```
