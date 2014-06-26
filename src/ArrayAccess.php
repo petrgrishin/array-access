@@ -43,6 +43,13 @@ class ArrayAccess extends BaseArrayObject {
     }
 
     /**
+     * @return ArrayAccess
+     */
+    public function copy() {
+        return clone $this;
+    }
+
+    /**
      * @param string $delimiter
      * @return $this
      */
