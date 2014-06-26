@@ -29,6 +29,16 @@ class ArrayAccessTest extends PHPUnit_Framework_TestCase {
         $this->assertInstanceOf(ArrayAccess::className(), $instance);
     }
 
+    public function testCopy() {
+        $instance = ArrayAccess::create($this->testArray);
+        $instanceCopy = $instance->copy();
+        $this->assertInstanceOf(ArrayAccess::className(), $instance);
+        $this->assertInstanceOf(ArrayAccess::className(), $instanceCopy);
+        $this->assertEquals($this->testArray, $instance->getArray());
+        $this->assertEquals($this->testArray, $instanceCopy->getArray());
+        $this->assertNotEquals(spl_object_hash($instance), spl_object_hash($instanceCopy));
+    }
+
     public function testCreateEmptyArray() {
         $instance = ArrayAccess::create();
         $this->assertEquals(array(), $instance->getArray());
