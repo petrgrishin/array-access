@@ -136,7 +136,7 @@ class ArrayAccess extends BaseArrayObject {
     }
 
     public function getMap() {
-        if ($this->map) {
+        if (!$this->map) {
             $this->map = ArrayMap::create($this);
         }
         return $this->map;
