@@ -51,7 +51,7 @@ $arrayAccess->getMap()
     ->userSortByKey($callback)
     ->mergeWith($array)
     ->replaceWith($array);
-$resultArrayParams = $params->getArray();
+$resultArrayParams = $arrayAccess->getArray();
 ```
 Example of usage ArrayMap class — https://github.com/petrgrishin/array-map
 
