@@ -6,6 +6,8 @@
 namespace PetrGrishin\ArrayAccess\Exception;
 
 
-class ArrayAccessException extends \Exception {
+use PetrGrishin\ArrayObject\Exception\ArrayObjectException;
+
+class ArrayAccessException extends ArrayObjectException {
 
 }
