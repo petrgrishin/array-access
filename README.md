@@ -2,6 +2,9 @@ array-access
 ============
 [![Travis CI](https://travis-ci.org/petrgrishin/array-access.png "Travis CI")](https://travis-ci.org/petrgrishin/array-access)
 [![Coverage Status](https://coveralls.io/repos/petrgrishin/array-access/badge.png?branch=master)](https://coveralls.io/r/petrgrishin/array-access?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/petrgrishin/array-access/v/stable.svg)](https://packagist.org/packages/petrgrishin/array-access)
+[![Total Downloads](https://poser.pugx.org/petrgrishin/array-access/downloads.svg)](https://packagist.org/packages/petrgrishin/array-access)
+[![License](https://poser.pugx.org/petrgrishin/array-access/license.svg)](https://packagist.org/packages/petrgrishin/array-access)
 
 PHP multi array access
 
